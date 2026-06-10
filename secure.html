@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AGZ System</title>
+
+<style>
+
+.glow-line{
+  border:none;
+  margin-top:8px;
+  height:3px;
+  background:linear-gradient(
+    90deg,
+    #00e5ff,
+    #7b61ff,
+    #ff0040,
+    #00e5ff
+  );
+  box-shadow:
+    0 0 5px #00e5ff,
+    0 0 10px #7b61ff,
+    0 0 20px #ff0040;
+  animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow{
+  from{
+    filter:brightness(1);
+  }
+  to{
+    filter:brightness(2);
+  }
+}
+#successModal .modal-box{
+  border:1px solid #00ff88;
+  box-shadow:0 0 20px #00ff88;
+}
+
+#deniedModal .modal-box{
+  border:1px solid #ff3030;
+  box-shadow:0 0 20px #ff3030;
+}
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  justify-content:center;
+  align-items:center;
+  z-index: 9999;
+}
+
+.modal-box{
+  background:#111;
+  color:white;
+  padding:20px;
+  border-radius:12px;
+  text-align:center;
+  width:300px;
+  height:auto;
+  z-index: 10000;
+}
+
+.avatar-ring{
+width:140px;
+height:140px;
+margin:auto;
+border-radius:50%;
+border:2px solid rgba(0,229,255,.5);
+display:flex;
+justify-content:center;
+align-items:center;
+animation:spin 10s linear infinite;
+}
+
+.profile-pic{
+width:110px;
+height:110px;
+border-radius:50%;
+object-fit:cover;
+}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,sans-serif;
+}
+
+body{
+background:#050816;
+color:white;
+overflow:hidden;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+#stars{
+position:fixed;
+inset:0;
+z-index:0;
+}
+
+.container{
+position:relative;
+z-index:2;
+width:90%;
+max-width:450px;
+text-align:center;
+}
+
+.orb{
+width:170px;
+height:170px;
+margin:auto;
+border-radius:50%;
+background:linear-gradient(135deg,#00e5ff,#7b61ff);
+box-shadow:
+0 0 40px #00e5ff,
+0 0 100px #7b61ff;
+animation:pulse 1s infinite;
+}
+
+#countdownSection{
+transition:.8s;
+}
+
+.timer{
+display:flex;
+gap:10px;
+justify-content:center;
+margin-top:30px;
+}
+
+.box{
+width:80px;
+height:100px;
+background:rgba(255,255,255,.05);
+border:1px solid #00bfff;
+backdrop-filter:blur(20px);
+border-radius:20px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+}
+
+.box span{
+font-size:30px;
+font-weight:bold;
+color:#00e5ff;
+}
+
+.box small{
+margin-top:5px;
+}
+
+.locked{
+margin-top:25px;
+color:#ffb300;
+letter-spacing:3px;
+}
+
+#loginSection{
+display:none;
+opacity:0;
+transform:scale(.5);
+}
+
+h1{
+margin-top:20px;
+font-size:2rem;
+background:linear-gradient(90deg,#00e5ff,#7b61ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.subtitle{
+background:linear-gradient(
+90deg,
+#00e5ff,
+#7b61ff,
+#ff0040,
+#00e5ff
+);
+
+background-size:300% 100%;
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+animation:gradientMove 5s linear infinite;
+}
+
+@keyframes gradientMove{
+0%{
+background-position:0%;
+}
+100%{
+background-position:300%;
+}
+}
+
+.card{
+margin-top:25px;
+padding:25px;
+border-radius:25px;
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(20px);
+border:1px solid rgb(0,0,225)
+}
+
+input{
+width:100%;
+padding:15px;
+border:1px solid rgb(0,0,225);
+outline:none;
+border-radius:15px;
+background:#0d1322;
+color:white;
+margin-top:15px;
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:15px;
+border:none;
+border-radius:15px;
+font-weight:bold;
+background:linear-gradient(90deg,#00e5ff,#7b61ff);
+color:white;
+cursor:pointer;
+}
+
+#profileCard{
+display:none;
+margin-top:20px;
+padding:20px;
+border-radius:20px;
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,.1);
+opacity:0;
+transform:translateY(50px);
+}
+
+.badge{
+margin-top:15px;
+padding:12px;
+border-radius:50px;
+background:#00ff88;
+color:#04150d;
+font-weight:bold;
+animation:pulse 1.5s infinite;
+}
+
+.loading{
+display:none;
+margin-top:15px;
+}
+
+.bar{
+height:5px;
+background:linear-gradient(90deg,#00e5ff,#7b61ff);
+border-radius:10px;
+animation:load 2s linear infinite;
+}
+
+@keyframes pulse{
+50%{
+transform:scale(1.05);
+}
+}
+
+@keyframes load{
+0%{width:0;}
+100%{width:100%;}
+}
+</style>
+</head>
+<body>
+  <div id="deniedModal" class="modal">
+  <div class="modal-box">
+    <h2>ACCESS DENIED</h2>
+    <p>Password salah.</p>
+    <p>❌</p>
+    <button onclick="closeModal()">OKE</button>
+  </div>
+</div>
+
+<div id="successModal" class="modal">
+  <div class="modal-box">
+    <h2>ACCESS GRANTED</h2>
+    <p>Login berhasil.</p>
+    <p>✅</p>
+    <button onclick="closeSuccess()">LANJUT</button>
+  </div>
+</div>
+
+<canvas id="stars"></canvas>
+
+<div class="container">
+
+<div id="countdownSection">
+
+<div class="orb"></div>
+
+<div class="timer">
+<div class="box">
+<span id="days">0</span>
+<small>HARI</small>
+</div>
+
+<div class="box">
+<span id="hours">0</span>
+<small>JAM</small>
+</div>
+
+<div class="box">
+<span id="minutes">0</span>
+<small>MENIT</small>
+</div>
+
+<div class="box">
+<span id="seconds">0</span>
+<small>DETIK</small>
+</div>
+</div>
+
+<div class="locked">
+SYSTEM LOCKED
+</div>
+ <hr style="border-color:#333;margin:24px 0;">
+ <p style="text-align:center;font-size:14px;opacity:.7;margin:16px 0;">TETAP STAND BY AGAR TIDAK KETINGGALAN DAGET</p>
+  <hr style="border-color:#333;margin:24px 0;">
+ 
+
+</div>
+
+<div id="loginSection">
+  <div class="avatar-ring">
+    <img src="METAGZ.jpg" class="profile-pic">
+</div>
+
+<h1>AGZZ SYSTEM</h1>
+<p class="subtitle">—METAGZ SECURE LOGIN—</p>
+
+<div class="card">
+
+<input
+type="password"
+id="password"
+placeholder="Masukkan Password">
+
+<button onclick="login()">
+VERIFY ACCESS
+</button>
+
+<div class="loading" id="loading">
+<div class="bar"></div>
+<p style="margin-top:10px">
+VERIFYING...
+</p>
+</div>
+
+</div>
+ 
+<div id="profileCard">
+  
+<h2 style="color:#00ff00;"><strong>SELAMAT!!!</strong></h2>
+ <hr class="glow-line">
+
+<p style="margin-top:15px;color:#ffd700;font-size:20px;">
+Anda telah berhasil login.</p>
+
+<p style="font-size:10px;">Klik tombol di bawah untuk mendapatkan Dana Kaget!
+</p>
+
+<div class="badge"
+   onclick="window.location.href='https:https://agungshu366-cell.github.io/APK-free-acces/Free-acces '">
+DAPATKAN DAGET!
+</button>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<script>
+// GANTI WAKTU DI SINI
+const unlockDate =
+new Date("2026-06-06T18:46:00").getTime();
+
+const timer =
+setInterval(()=>{
+
+const now = Date.now();
+
+const distance =
+unlockDate - now;
+
+if(distance <= 0){
+
+clearInterval(timer);
+
+const countdown =
+document.getElementById(
+"countdownSection"
+);
+
+countdown.style.transform =
+"scale(0)";
+
+countdown.style.opacity =
+"0";
+
+setTimeout(()=>{
+
+countdown.style.display =
+"none";
+
+const login =
+document.getElementById(
+"loginSection"
+);
+
+login.style.display =
+"block";
+
+setTimeout(()=>{
+
+login.style.opacity =
+"1";
+
+login.style.transform =
+"scale(1)";
+
+login.style.transition =
+".8s";
+
+},50);
+
+},800);
+
+return;
+}
+
+document.getElementById(
+"days"
+).innerText =
+Math.floor(distance/86400000);
+
+document.getElementById(
+"hours"
+).innerText =
+Math.floor(
+(distance%86400000)
+/3600000
+);
+
+document.getElementById(
+"minutes"
+).innerText =
+Math.floor(
+(distance%3600000)
+/60000
+);
+
+document.getElementById(
+"seconds"
+).innerText =
+Math.floor(
+(distance%60000)
+/1000
+);
+
+},1000);
+
+function showDenied(){
+  document.getElementById("deniedModal").style.display = "flex";
+}
+
+function closeModal(){
+  document.getElementById("deniedModal").style.display = "none";
+}
+
+function showSuccess(){
+  document.getElementById("successModal").style.display = "flex";
+}
+
+function closeSuccess(){
+  document.getElementById("successModal").style.display = "none";
+}
+function login(){
+
+const pass = document.getElementById("password").value;
+const loading = document.getElementById("loading");
+
+loading.style.display = "block";
+
+setTimeout(()=>{
+
+loading.style.display = "none";
+
+if(pass === "AGZ123"){
+  
+  showSuccess();
+
+const card = document.getElementById("profileCard");
+
+card.style.display = "block";
+
+setTimeout(()=>{
+card.style.opacity = "1";
+card.style.transform = "translateY(0)";
+card.style.transition = ".8s";
+},50);
+
+}else{
+
+showDenied();
+
+}
+
+},2000);
+
+}
+
+
+
+// Background bintang
+
+const canvas =
+document.getElementById(
+"stars"
+);
+
+const ctx =
+canvas.getContext("2d");
+
+canvas.width =
+innerWidth;
+
+canvas.height =
+innerHeight;
+
+const stars=[];
+
+for(let i=0;i<150;i++){
+
+stars.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2
+});
+
+}
+
+function animate(){
+
+ctx.clearRect(
+0,0,
+canvas.width,
+canvas.height
+);
+
+ctx.fillStyle="white";
+
+stars.forEach(s=>{
+
+ctx.beginPath();
+
+ctx.arc(
+s.x,
+s.y,
+s.r,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+s.y+=0.2;
+
+if(s.y>canvas.height){
+
+s.y=0;
+s.x=Math.random()*canvas.width;
+
+}
+
+});
+
+requestAnimationFrame(
+animate
+);
+
+}
+
+animate();
+
+</script>
+
+</body>
+</html>
