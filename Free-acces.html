@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FREE ACCES</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f3f4f6;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:20px;
+}
+
+.card{
+width:100%;
+max-width:500px;
+background:#fff;
+border-radius:15px;
+padding:25px;
+box-shadow:0 5px 20px rgba(0,0,0,.15);
+margin:30px 0 30px 0;
+}
+
+.logo{
+font-size:32px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.info{
+color:#666;
+margin-bottom:20px;
+}
+
+.download-btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:10px;
+background:#0a84ff;
+color:white;
+font-size:18px;
+cursor:pointer;
+}
+
+.loading{
+display:none;
+margin-top:20px;
+}
+
+.progress{
+width:100%;
+height:14px;
+background:#ddd;
+border-radius:50px;
+overflow:hidden;
+}
+
+.fill{
+width:0%;
+height:100%;
+background:#0a84ff;
+transition:.1s;
+}
+
+.percent{
+text-align:center;
+margin-top:10px;
+font-weight:bold;
+}
+
+.popup{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.7);
+z-index:9999;
+justify-content:center;
+align-items:center;
+}
+
+.popup-box{
+background:white;
+padding:25px;
+width:320px;
+border-radius:15px;
+text-align:center;
+}
+
+.popup-box h2{
+margin-bottom:10px;
+}
+
+.popup-box p{
+margin-bottom:20px;
+}
+
+.popup-box button{
+padding:12px 25px;
+border:none;
+border-radius:10px;
+background:#0a84ff;
+color:white;
+cursor:pointer;
+}
+
+.jumpscare{
+display:none;
+position:fixed;
+inset:0;
+background:black;
+z-index:10000;
+justify-content:flex-start;
+align-items:center;
+flex-direction:column;
+animation:flash .15s infinite;
+}
+
+.scary-p{
+font-size:14px;
+color:red;
+font-weight:bold;
+text-shadow:0 0 20px red;
+animation:glitch .08s infinite;
+text-align:center;
+margin-top:10px;
+border:solid red 2px;
+padding:40px;
+}
+
+.scary-p2{
+font-size:14px;
+color:red;
+font-weight:bold;
+text-shadow:0 0 20px red;
+animation:glitch .08s infinite;
+text-align:center;
+margin-top:50px;
+}
+
+.scary{
+font-size:60px;
+color:red;
+font-weight:bold;
+text-shadow:0 0 20px red;
+animation:glitch .08s infinite;
+text-align:center;
+margin-top:-20px;
+}
+
+.prank{
+margin-top:20px;
+font-size:22px;
+color:white;
+}
+
+.exit{
+margin-top:25px;
+padding:12px 20px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+@keyframes flash{
+50%{
+background:#300000;
+}
+}
+
+@keyframes glitch{
+0%{transform:translate(2px,0);}
+50%{transform:translate(-2px,2px);}
+100%{transform:translate(2px,-2px);}
+}
+</style>
+</head>
+<body>
+<div>
+  <h2><strong>PRODUK DARI METAGZ</strong></h2>
+  <hr>
+<p>Apk ini di bagikam secara <strong>GRATIS</strong> tanpa <strong>BIAYA SEDIKITPUN</strong> DARI OWNER <em>METAGZ.</em></p>
+<div class="card">
+
+<div class="logo">APK EXOTORY ULTRA</div>
+
+<div class="info">
+File Size : 70.03 MB<br>
+Username:Acces<br>
+Password: Free<br>
+Trial:1Hari
+</div>
+
+<button class="download-btn" onclick="downloadFile()">
+DOWNLOAD (70.03MB)
+</button>
+
+<div class="loading" id="loading">
+
+<div class="progress">
+<div class="fill" id="fill"></div>
+</div>
+
+<div class="percent" id="percent">
+0%
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="logo">APK PHISING (RAT)</div>
+
+<div class="info">
+File Size : 60.73 MB
+</div>
+
+<center>
+COMING SOON!
+</center>
+
+
+
+<div class="loading" id="loading">
+
+<div class="progress">
+<div class="fill" id="fill"></div>
+</div>
+
+<div class="percent" id="percent">
+0%
+</div>
+
+</div>
+
+</div>
+<p style="opacity:0.5;">Jika melihat orang yang menjual produk Ini,Segera lapor <strong>ADMIN!!!</strong><br>Jika ragu dengan Apk ini maka gausah di download ya anak anak Asu</p>
+<div class="popup" id="popup">
+
+<div class="popup-box">
+
+<h2>FILE BERHASIL TERUNDUH<br>✓</h2>
+
+<p>Hubungi Developer jika ada kendala.</p>
+
+<button onclick="mulaiPrank()">
+TUTUP
+</button>
+
+</div>
+</div>
+
+<div class="jumpscare" id="jumpscare">
+
+<div class="scary">
+⚠ LOCKED BY METAGZ ⚠
+</div>
+
+<div class="scary-p">
+  <h2>Ngarep APK Bug gratis? Beli Kontol</h2>
+Haha mampus Lu Kontol😂<br>Makanya jangan goblok klo jadi orang bego<br>Udah mah bego,tolol,goblok lagi😂
+</div>
+
+<div class="scary-p2">
+~by METAGZ attacker😈🔥~
+</div>
+
+</div>
+
+<audio id="alarm" loop>
+<source src="prank.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+function downloadFile(){
+
+document.getElementById("loading").style.display="block";
+
+let progress=0;
+
+let timer=setInterval(()=>{
+
+progress++;
+
+document.getElementById("fill").style.width=progress+"%";
+document.getElementById("percent").innerText=progress+"%";
+
+if(progress>=100){
+
+clearInterval(timer);
+
+setTimeout(()=>{
+
+document.getElementById("popup").style.display="flex";
+
+},500);
+
+}
+
+},40);
+
+}
+
+async function mulaiPrank(){
+
+document.getElementById("popup").style.display="none";
+
+try{
+await document.documentElement.requestFullscreen();
+}catch(e){}
+
+document.getElementById("jumpscare").style.display="flex";
+
+let alarm=document.getElementById("alarm");
+
+if(alarm){
+alarm.play();
+}
+
+if(navigator.vibrate){
+navigator.vibrate([
+50000,500000,
+50000,500000,
+50000,500000,
+50000,500000,
+50000,500000,
+50000,500000,
+50000,500000,
+50000,500000,
+50000,500000,
+50000,500000
+]);
+}
+
+}
+
+function keluarPrank(){
+
+let alarm=document.getElementById("alarm");
+
+if(document.fullscreenElement){
+document.exitFullscreen();
+}
+
+document.getElementById("jumpscare").style.display="none";
+
+location.reload();
+
+}
+
+</script>
+
+</body>
+</html>
